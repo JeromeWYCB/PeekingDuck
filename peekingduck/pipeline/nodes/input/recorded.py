@@ -83,6 +83,8 @@ class Node(AbstractNode):
                                for filepath in self._filepaths]
             self._filepaths.sort()
 
+        print(path)
+
         if not os.path.exists(path):
             raise FileNotFoundError("Filepath does not exist")
         if not self._filepaths:

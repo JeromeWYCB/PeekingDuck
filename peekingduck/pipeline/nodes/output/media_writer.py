@@ -77,7 +77,7 @@ class Node(AbstractNode):
 
     def _write(self, img: np.array) -> None:
         if self._image_type == "image":
-            cv2.imwrite(self._file_path, img)
+            cv2.imwrite(os.path.join(self._output_dir, self._file_name), img)
         else:
             self.writer.write(img)  # type: ignore
 

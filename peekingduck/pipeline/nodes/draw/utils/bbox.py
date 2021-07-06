@@ -16,6 +16,7 @@ from typing import List, Tuple
 import numpy as np
 import cv2
 from cv2 import FONT_HERSHEY_SIMPLEX, LINE_AA
+from numpy.lib.type_check import imag
 from peekingduck.pipeline.nodes.draw.utils.constants import \
     CHAMPAGNE, BLACK, THICK, VERY_THICK, TOMATO, NORMAL_FONTSCALE, POINT_RADIUS, FILLED
 from peekingduck.pipeline.nodes.draw.utils.general import \
@@ -35,6 +36,13 @@ def draw_bboxes(frame: np.array,
         bbox_labels (List[str]): labels of object detected
     """
     image_size = get_image_size(frame)
+
+    # saturate
+    # overlay = frame.copy()
+    # cv2.rectangle(overlay, (0, 0), (image_size[0], image_size[1]), BLACK, FILLED)
+    # # apply the overlay
+    # cv2.addWeighted(overlay, 0.2, frame, 0.8, 0, frame)
+
     for i, bbox in enumerate(bboxes):
         if bbox_labels is not None:
             _draw_bbox(frame, bbox, image_size, colour, bbox_labels[i])

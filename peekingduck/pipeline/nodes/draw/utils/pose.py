@@ -41,7 +41,7 @@ def draw_human_poses(image: np.array,
             _draw_connections(image, keypoint_conns[i],
                               image_size, CHAMPAGNE)
             _draw_keypoints(image, keypoints[i], image_size,
-                            CHAMPAGNE, POINT_RADIUS)
+                            TOMATO, POINT_RADIUS)
 
 
 def _draw_connections(frame: np.array,
