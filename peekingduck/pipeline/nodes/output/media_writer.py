@@ -1,16 +1,20 @@
-"""Copyright 2021 AI Singapore
+# Copyright 2021 AI Singapore
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 
-     https://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License."""
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""
+Write the output image/video to file
+"""
 
 import datetime
 import os
@@ -38,7 +42,7 @@ class Node(AbstractNode):
         self._image_type = None
         self._file_path = None
         self.writer = None
-        self.file_path_with_timestamp = None
+        self._file_path_with_timestamp = None
 
     def __del__(self) -> None:
         if self.writer:
@@ -49,7 +53,7 @@ class Node(AbstractNode):
         self._file_path = None
         self._image_type = None
         self.writer = None
-        self.file_path_with_timestamp = None
+        self._file_path_with_timestamp = None
 
     def run(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         """ Writes media information to filepath
@@ -77,13 +81,13 @@ class Node(AbstractNode):
 
     def _write(self, img: np.array) -> None:
         if self._image_type == "image":
-            cv2.imwrite(os.path.join(self._output_dir, self._file_name), img)
+            cv2.imwrite(self._file_path_with_timestamp, img)
         else:
             self.writer.write(img)  # type: ignore
 
     def _prepare_writer(self, filename: str, img: np.array, fps: int) -> None:
 
-        self.file_path_with_timestamp = self._append_datetime_filename(filename) #type: ignore
+        self._file_path_with_timestamp = self._append_datetime_filename(filename) #type: ignore
 
         self._image_type = "video"  # type: ignore
         if filename.split(".")[-1] in ["jpg", "jpeg", "png"]:
@@ -91,7 +95,7 @@ class Node(AbstractNode):
         else:
             resolution = img.shape[1], img.shape[0]
             self.writer = cv2.VideoWriter(
-                self.file_path_with_timestamp, self._fourcc, fps, resolution)
+                self._file_path_with_timestamp, self._fourcc, fps, resolution)
 
     @staticmethod
     def _prepare_directory(output_dir) -> None:  # type: ignore
