@@ -1,5 +1,5 @@
 nodes:
-- input.live
-- model.yolo
-- draw.bbox
+- input.recorded:
+   input_dir: 'C:/Users/halfb/OneDrive/Desktop/peekingduck_temp/data/test_cycle_videos/split_squat_correct.mp4'
+- custom_nodes.model.blazepose
 - output.screen

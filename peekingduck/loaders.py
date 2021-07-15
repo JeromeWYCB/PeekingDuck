@@ -80,6 +80,7 @@ class DeclarativeLoader:  # pylint: disable=too-few-public-methods
         self.config_updates_cli = ast.literal_eval(
             config_updates_cli)  # type: ignore
 
+        self.logger.info(custom_node_parent_folder)
         custom_folder = self._get_custom_name_from_node_list()
         if custom_folder is not None:
             custom_folder_path = os.path.join(os.getcwd(),
@@ -88,7 +89,7 @@ class DeclarativeLoader:  # pylint: disable=too-few-public-methods
             self.custom_config_loader = ConfigLoader(custom_folder_path)
             sys.path.append(custom_node_parent_folder)
 
-            self.custom_folder_path = custom_folder_path
+            self.custom_folder_path = custom_folder
 
     def _load_node_list(self, run_config: str) -> List[str]:
         """Loads a list of nodes from run_config.yml"""
@@ -156,7 +157,10 @@ class DeclarativeLoader:  # pylint: disable=too-few-public-methods
                    config_loader: ConfigLoader,
                    config_updates_yml: Dict[str, Any]) -> AbstractNode:
         """ Import node to filepath and initialise node with config """
-
+        self.logger.info(path_to_node)
+        self.logger.info(node_name)
+        #node_path = path_to_node + node_name
+        #node_path = node_path.replace(".", "\\")
         node = importlib.import_module(path_to_node + node_name)
         config = config_loader.get(node_name)
 
